@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Aplication | Dashboard</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- DataTables -->
+  	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+  <!-- jvectormap -->
+  <link rel="stylesheet" href="{{url_for('static', filename='jvectormap/jquery-jvectormap-1.2.2.css')}}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{url_for('static', filename='AdminLTE.min.css')}}">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/_all-skins.min.css')}}">
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <header class="main-header">
+
+    <!-- Logo -->
+    <a href="index2.html" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>A</b>P</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>Aplication</b> User</span>
+    </a>
+
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <!-- Navbar Right Menu -->
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="{{url_for('static', filename='img/user.png')}}" class="user-image" alt="User Image">
+              <span class="hidden-xs">{{ session.get('nama') }}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="{{url_for('static', filename='img/user.png')}}" class="img-circle" alt="User Image">
+                <p>
+                  {{ session.get('nama') }} - {{ session.get('address') }}
+                  <small>{{ session.get('username') }}</small>
+                </p>
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                  <a href="{{url_for('logout')}}" class="btn btn-default btn-flat">Sign out</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="{{url_for('static', filename='img/user.png')}}" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>{{ session.get('nama') }}</p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+  
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      {% set active_page = active_page|default('homepage') -%}
+      <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="treeview {% if active_page == 'homepage' %}active{% endif %}">
+          <a href="{{url_for('homepage')}}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        {% block page_title %}{% endblock %}
+      </h1>
+      {% block breadcrumb %}
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+      </ol>
+      {% endblock %}
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      {% block body %}{% endblock body %}
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 1.1.1
+    </div>
+    <strong>Copyright &copy; 2022 <a href="#">Hadi Kusumanto</a>.</strong> All rights
+    reserved.
+  </footer>
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script src="{{url_for('static', filename='jQuery/jquery-2.2.3.min.js')}}"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+<!-- FastClick -->
+<script src="{{url_for('static', filename='fastclick/fastclick.js')}}"></script>
+<!-- AdminLTE App -->
+<script src="{{url_for('static', filename='app.min.js')}}"></script>
+<!-- Sparkline -->
+<script src="{{url_for('static', filename='sparkline/jquery.sparkline.min.js')}}"></script>
+<!-- jvectormap -->
+<script src="{{url_for('static', filename='jvectormap/jquery-jvectormap-1.2.2.min.js')}}"></script>
+<script src="{{url_for('static', filename='jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
+<!-- SlimScroll 1.3.0 -->
+<script src="{{url_for('static', filename='plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{{url_for('static', filename='dashboard2.js')}}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{url_for('static', filename='demo.js')}}"></script>
+</body>
+</html>

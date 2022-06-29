@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Aplication | Register</title>
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<!-- Bootstrap 3.3.6 -->
+	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="{{url_for('static', filename='AdminLTE.min.css')}}">
+	<!-- iCheck -->
+	<link rel="stylesheet" href="{{url_for('static', filename='iCheck/square/blue.css')}}">
+	<!--	Sweet Alert 2	-->
+	<link rel="stylesheet" href="{{url_for('static', filename='sweetalert2.min.css')}}">
+</head>
+<body class="hold-transition register-page">
+	<div class="register-box">
+	  <div class="register-logo">
+		<a href="{{ url_for('homepage')}}"><b>Aplication</b> User</a>
+	  </div>
+	
+	  <div class="register-box-body">
+		<p class="login-box-msg">Register</p>
+		{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<div class="alert alert-success alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+				{{ messages[0] }}
+			</div>
+		{% endif %}
+		{% endwith %}
+		<form action="{{ url_for('register')}}" method="post" autocomplete="off">
+		  <div class="form-group has-feedback">
+			<input type="text" name = 'nama' class="form-control" placeholder="Nama Lengkap" id="nama" required>
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
+		  </div>
+		  <div class="form-group has-feedback">
+			<input type="text" name = 'username' class="form-control" placeholder="Username" id="username" required>
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
+		  </div>
+		  <div class="form-group has-feedback">
+			<input type="password" name = 'password' class="form-control" placeholder="Password" id="password" required>
+			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+		  </div>
+		  <div class="form-group has-feedback">
+			<input type="email" name = 'email' class="form-control" placeholder="Email" id="email" required>
+			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+		  </div>
+		  <div class="form-group has-feedback">
+			<input type="text" name = 'address' class="form-control" placeholder="Address" id="address" required>
+			<span class="glyphicon glyphicon-globe form-control-feedback"></span>
+		  </div>
+		  <div class="row">
+			<div class="col-xs-8">
+				<a href="{{ url_for('login')}}" class="text-center">Sudah memiliki akun?</a>
+			</div>
+			<!-- /.col -->
+			<div class="col-xs-4">
+			  <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+			</div>
+			<!-- /.col -->
+		  </div>
+		</form>
+	  </div>
+	  <!-- /.form-box -->
+	</div>
+	<!-- /.register-box -->
+	
+	<!-- jQuery 2.2.3 -->
+	<script src="{{url_for('static', filename='jQuery/jquery-2.2.3.min.js')}}"></script>
+	<!-- Bootstrap 3.3.6 -->
+	<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+	<!-- iCheck -->
+	<script src="{{url_for('static', filename='iCheck/icheck.min.js')}}"></script>
+	<script>
+	  $(function () {
+		$('input').iCheck({
+		  checkboxClass: 'icheckbox_square-blue',
+		  radioClass: 'iradio_square-blue',
+		  increaseArea: '20%' // optional
+		});
+	  });
+	</script>
+</body>

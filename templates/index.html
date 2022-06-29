@@ -1,0 +1,158 @@
+{% extends 'layout.html' %}
+{% block page_title %}
+    {{ 'user'}}
+{% endblock %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ url_for('homepage') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active" aria-current="page">{{'user'}}</li>
+    </ol>
+{% endblock %}
+<!-- DataTables -->
+<link rel="stylesheet" href="{{url_for('static', filename='dataTables.bootstrap.css')}}">
+{% block body %}
+<section class="content">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="alert alert-success alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+  {% endif %}
+  {% endwith %}
+  <div class="row">
+    <div class="col-xs-12">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">
+        Tambah User
+    </button>
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">Data user</h3>
+          </div>
+          <!-- /.box-header -->
+          <div id='bkTable' class="box-body table-responsive">
+              <!--search in table-->
+              <form action="{{ url_for('search') }}" method="post">
+                <div class="input-group">
+                  <input type="text" name="user" class="form-control" placeholder="Cari Berdasarkan Nama,Alamt,Email...">
+                      <span class="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                        </button>
+                      </span>
+                </div>
+              </form>
+                <table id= "tbl_user" class="table table-bordered table-hover display">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama User</th>
+                            <th>Email</th>
+                            <th>Alamat</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- if value is empty-->
+                        {% if not user %}
+                            <tr>
+                                <td colspan="7" class="text-center">Tidak ada data</td>
+                            </tr>
+                            {% else %}
+                            {% for row in user %}
+                                <tr>
+                                    <td>{{ loop.index + (page - 1) * per_page }}</td>
+                                    <td>{{ row.nama }}</td>
+                                    <td>{{ row.email }}</td>
+                                    <td>{{ row.address }}</td>
+                                    <td>
+                                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal{{row.id_user}}">
+                                        <i class="fa fa-trash"> Hapus User</i>
+                                      </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% endif %}
+                    </tbody>
+                </table>
+                <!--pagination-->
+                {{pagination.info}}
+                {{pagination.links}}
+            </div> 
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+    </div>
+    <!-- /.row -->
+<!--Modals add book  -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Tambah User Baru</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form action="{{url_for('add_user')}}" method="POST">
+                  <div class="form-group">
+                      <label for="nama">Nama Lengkap</label>
+                      <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Lengkap" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="username">Username</label>
+                      <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="password">Password</label>
+                      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="address">Alamat</label>
+                      <input type="text" class="form-control" id="address" name="address" placeholder="Alamat" required>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Tambah User</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+<!--End Modals add book  -->
+<!-- modals delete -->
+{% for row in user %}
+<div class="modal fade" id="deleteUserModal{{row.id_user}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Delete User</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form action="{{url_for('delete_user')}}" method="POST" autocomplete="off">
+                  <div class="form-group">
+                      <h5>Apakah anda yakin akan menghapus user ini?</h5>
+                  </div>
+                  <input type="hidden" name="id_user" value="{{row.id_user}}">
+                  <button type="submit" class="btn btn-danger">Hapus</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Batal</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+{% endfor %}
+<!-- end modals delete -->
+{% endblock body %}

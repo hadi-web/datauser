@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+{% block page_title %}
+    {{ 'Buku'}}
+{% endblock %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ url_for('homepage') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active" aria-current="page">{{'Buku'}}</li>
+    </ol>
+{% endblock %}
+{% set active_page = "buku" %}
+<!-- DataTables -->
+<link rel="stylesheet" href="{{url_for('static', filename='dataTables.bootstrap.css')}}">
+{% block body %}
+<section class="content">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="alert alert-success alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+  {% endif %}
+  {% endwith %}
+  <div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">Data User</h3>
+          </div>
+          <!-- /.box-header -->
+          <!--search in table-->
+          <div id='bkTable' class="box-body table-responsive">
+              <form action="{{ url_for('search') }}" method="post">
+                <div class="input-group">
+                  <input type="text" name="user" class="form-control" placeholder="Cari Berdasarkan Judul,Kategori,Tempat Terbit...">
+                      <span class="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                        </button>
+                      </span>
+                </div>
+              </form>
+              <table id= "tbl_user" class="table table-bordered table-hover display">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama User</th>
+                        <th>Email</th>
+                        <th>Alamat</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- if value is empty-->
+                    {% if not users %}
+                        <tr>
+                            <td colspan="7" class="text-center">Data Tidak Ditemukan</td>
+                        </tr>
+                        {% else %}
+                        {% for row in users %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ row.nama }}</td>
+                                <td>{{ row.email }}</td>
+                                <td>{{ row.address }}</td>
+                                <td>
+                                  <a name="" id="" class="btn btn-primary" href="#" role="button">Edit</a>
+                                  <a name="" id="" class="btn btn-danger" href="#" role="button">Hapus</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% endif %}
+                </tbody>
+            </table>
+                <!--pagination-->
+            </div> 
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+    </div>
+    <!-- /.row -->
+{% endblock body %}
+<!--Checkbox_edit Script-->
+<script>
+    document.getElementById("Checkbox_edit").onclick = function() {
+        if (this.checked) {
+            document.getElementById("kategori").disabled = false;
+        } else {
+            document.getElementById("kategori").disabled = true;
+        }
+    };
+</script>
+<!--search-->
+<script>
+    $(document).ready(function() {
+        $('#example1_wrapper').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('#tbl_buku tr').filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
