@@ -9,10 +9,10 @@ app = Flask(__name__)
 app.secret_key = 'AHjkaIllq!@$%^&*()'
 mysql = MySQL(app)
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'db_test'
+app.config['MYSQL_HOST'] = 'us-cdbr-east-05.cleardb.net'
+app.config['MYSQL_USER'] = 'be59ae2d82a4ee'
+app.config['MYSQL_PASSWORD'] = '4b277e32'
+app.config['MYSQL_DB'] = 'heroku_a91c363318c38ae'
 
 
 # get_user
@@ -23,7 +23,7 @@ def get_users(offset=0, per_page=5):
 
 # create tables
 def create_tables():
-    conn = MySQLdb.connect(host='localhost', user='root', passwd='', db='db_test')
+    conn = MySQLdb.connect(host='us-cdbr-east-05.cleardb.net', user='be59ae2d82a4ee', passwd='4b277e32', db='heroku_a91c363318c38ae')
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE `tbl_user` (`id_user` int(11) NOT NULL AUTO_INCREMENT,`nama` varchar(50) NOT NULL,`username` varchar(50) NOT NULL,`password` varchar(50) NOT NULL,`email` varchar(50) NOT NULL,`address` varchar(50) NOT NULL,PRIMARY KEY (`id_user`)) ENGINE=InnoDB DEFAULT CHARSET=latin1")
     conn.commit()
