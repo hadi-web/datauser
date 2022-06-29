@@ -150,7 +150,7 @@ def search():
     else:
         return redirect(url_for('homepage'))
     
-# hapus data user
+# hapus data users
 @app.route("/delete_user", methods =['GET', 'POST'])
 def delete_user():
     if 'username' in session:
